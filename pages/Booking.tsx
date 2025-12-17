@@ -41,39 +41,32 @@ export const Booking: React.FC = () => {
   const isFormValid = formData.patientName && formData.contactNumber && formData.doctorId && formData.reason;
 
   return (
-    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-4xl mx-auto">
+    <div className="section bg-body" style={{ minHeight: '100vh', padding: '3rem 0' }}>
+      <div className="container" style={{ maxWidth: '900px' }}>
         
         {/* Navigation & Title */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 no-print">
+        <div className="flex justify-between items-center no-print" style={{ marginBottom: '2rem' }}>
            <div>
-             <Link to="/" className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-teal-600 transition-colors mb-2">
-               <ArrowLeft size={16} className="mr-1"/> Return to Overview
+             <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', fontSize: '0.875rem', fontWeight: 500, color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
+               <ArrowLeft size={16} style={{ marginRight: '0.25rem' }}/> Return to Overview
              </Link>
-             <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Book Appointment</h1>
+             <h1 className="text-3xl font-bold">Book Appointment</h1>
            </div>
-           <div className="mt-4 md:mt-0 px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-bold uppercase tracking-wide self-start">
-             Live Prototype
-           </div>
+           <div className="badge badge-teal">Live Prototype</div>
         </div>
 
-        <div className="grid md:grid-cols-12 gap-8">
+        <div className="grid grid-3" style={{ gridTemplateColumns: '1fr 3fr' }}>
            {/* Sidebar / Stepper */}
-           <div className="md:col-span-3 no-print">
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sticky top-24">
-                 <div className="space-y-6">
+           <div className="no-print">
+              <div className="card" style={{ padding: '1.5rem', position: 'sticky', top: '6rem' }}>
+                 <div className="stepper">
+                    <div className="stepper-line"></div>
                     {STEPS.map((step, idx) => (
-                      <div key={idx} className={`relative flex items-center gap-3 ${idx > currentStep ? 'opacity-40' : 'opacity-100'}`}>
-                        {idx !== STEPS.length - 1 && (
-                          <div className={`absolute left-4 top-8 w-0.5 h-6 -ml-px ${idx < currentStep ? 'bg-teal-600' : 'bg-slate-200'}`}></div>
-                        )}
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-colors
-                          ${idx < currentStep ? 'bg-teal-600 border-teal-600 text-white' : 
-                            idx === currentStep ? 'bg-white border-teal-600 text-teal-600' : 
-                            'bg-white border-slate-300 text-slate-400'}`}>
+                      <div key={idx} className={`step-item ${idx > currentStep ? 'inactive' : ''} ${idx === currentStep ? 'step-active' : ''} ${idx < currentStep ? 'step-completed' : ''}`}>
+                        <div className="step-circle">
                           {idx < currentStep ? <CheckCircle size={14} /> : idx + 1}
                         </div>
-                        <span className={`text-sm font-medium ${idx === currentStep ? 'text-teal-700' : 'text-slate-600'}`}>
+                        <span style={{ fontSize: '0.875rem', fontWeight: 500, color: idx === currentStep ? 'var(--primary)' : 'inherit' }}>
                           {step}
                         </span>
                       </div>
@@ -83,54 +76,50 @@ export const Booking: React.FC = () => {
            </div>
 
            {/* Main Form Area */}
-           <div className="md:col-span-9">
-             <Card className="min-h-[500px]" noPadding>
-               {/* Progress Bar (Mobile only essentially) */}
-               <div className="h-1 bg-slate-100 w-full no-print">
-                 <div className="h-full bg-teal-600 transition-all duration-500" style={{width: `${((currentStep + 1) / 3) * 100}%`}}></div>
-               </div>
-
-               <div className="p-8">
+           <div className="col-span-2" style={{ gridColumn: 'span 2' }}>
+             <Card noPadding>
+               <div className="p-8" style={{ padding: '2rem' }}>
                 {/* Step 1: Patient Details */}
                 {currentStep === 0 && (
-                  <div className="space-y-6 fade-in-up">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="group">
-                        <label className="block text-sm font-medium text-slate-700 mb-2">Patient Name</label>
-                        <div className="relative">
-                          <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-500" size={18} />
+                  <div className="fade-in">
+                    <div className="grid grid-2" style={{ gap: '1.5rem' }}>
+                      <div className="form-group">
+                        <label className="label">Patient Name</label>
+                        <div className="input-icon-wrap">
+                          <User className="input-icon" size={18} />
                           <input
                             type="text"
                             name="patientName"
                             value={formData.patientName}
                             onChange={handleInputChange}
-                            className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:bg-white focus:border-transparent transition-all outline-none"
+                            className="input input-with-icon"
                             placeholder="Full Name"
                           />
                         </div>
                       </div>
-                      <div className="group">
-                        <label className="block text-sm font-medium text-slate-700 mb-2">Contact Number</label>
-                        <div className="relative">
-                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-500" size={18} />
+                      <div className="form-group">
+                        <label className="label">Contact Number</label>
+                        <div className="input-icon-wrap">
+                          <Phone className="input-icon" size={18} />
                           <input
                             type="tel"
                             name="contactNumber"
                             value={formData.contactNumber}
                             onChange={handleInputChange}
-                            className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:bg-white focus:border-transparent transition-all outline-none"
+                            className="input input-with-icon"
                             placeholder="+1 (555) 000-0000"
                           />
                         </div>
                       </div>
-                      <div className="group">
-                        <label className="block text-sm font-medium text-slate-700 mb-2">Specialist</label>
-                        <div className="relative">
+                      <div className="form-group">
+                        <label className="label">Specialist</label>
+                        <div className="input-icon-wrap">
                           <select
                             name="doctorId"
                             value={formData.doctorId}
                             onChange={handleInputChange}
-                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:bg-white focus:border-transparent transition-all outline-none appearance-none"
+                            className="select"
+                            style={{ paddingLeft: '1rem' }}
                           >
                             <option value="">Select Department / Doctor</option>
                             {DOCTORS.map(doc => (
@@ -139,40 +128,39 @@ export const Booking: React.FC = () => {
                               </option>
                             ))}
                           </select>
-                          <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 rotate-90 text-slate-400 pointer-events-none" size={16} />
                         </div>
                       </div>
-                      <div className="group">
-                        <label className="block text-sm font-medium text-slate-700 mb-2">Preferred Date</label>
-                        <div className="relative">
-                          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-500" size={18} />
+                      <div className="form-group">
+                        <label className="label">Preferred Date</label>
+                        <div className="input-icon-wrap">
+                          <Calendar className="input-icon" size={18} />
                           <input
                             type="date"
                             name="date"
                             value={formData.date}
                             onChange={handleInputChange}
-                            className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:bg-white focus:border-transparent transition-all outline-none"
+                            className="input input-with-icon"
                           />
                         </div>
                       </div>
                     </div>
-                    <div className="group">
-                      <label className="block text-sm font-medium text-slate-700 mb-2">Reason for Visit</label>
-                      <div className="relative">
-                        <FileText className="absolute left-3 top-4 text-slate-400 group-focus-within:text-teal-500" size={18} />
+                    <div className="form-group">
+                      <label className="label">Reason for Visit</label>
+                      <div className="input-icon-wrap">
+                        <FileText className="input-icon" size={18} style={{ top: '1.5rem' }} />
                         <textarea
                           name="reason"
                           value={formData.reason}
                           onChange={handleInputChange}
                           rows={3}
-                          className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:bg-white focus:border-transparent transition-all outline-none"
+                          className="textarea input-with-icon"
                           placeholder="Please describe symptoms or purpose of appointment..."
                         ></textarea>
                       </div>
                     </div>
-                    <div className="flex justify-end pt-6 border-t border-slate-100">
+                    <div className="flex justify-end" style={{ marginTop: '2rem', borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}>
                       <Button onClick={handleNext} disabled={!isFormValid} size="lg">
-                        Continue to Payment <ArrowLeft className="ml-2 rotate-180" size={18}/>
+                        Continue to Payment <ArrowLeft style={{ marginLeft: '0.5rem', transform: 'rotate(180deg)' }} size={18}/>
                       </Button>
                     </div>
                   </div>
@@ -180,64 +168,62 @@ export const Booking: React.FC = () => {
 
                 {/* Step 2: Confirmation & Payment */}
                 {currentStep === 1 && (
-                  <div className="max-w-md mx-auto space-y-8 fade-in-up">
-                    <div className="text-center">
-                       <h3 className="text-2xl font-bold text-slate-900">Review & Pay</h3>
-                       <p className="text-slate-500">Please verify your appointment details.</p>
+                  <div className="fade-in" style={{ maxWidth: '400px', margin: '0 auto' }}>
+                    <div className="text-center" style={{ marginBottom: '2rem' }}>
+                       <h3 className="text-2xl font-bold">Review & Pay</h3>
+                       <p className="text-muted">Please verify your appointment details.</p>
                     </div>
                     
-                    <div className="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 space-y-4 relative overflow-hidden">
-                       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-500 to-emerald-400"></div>
-                       <div className="flex justify-between items-center pb-4 border-b border-slate-100">
+                    <div className="card" style={{ padding: '1.5rem', marginBottom: '1.5rem', borderTop: '4px solid var(--primary)' }}>
+                       <div className="flex justify-between items-center" style={{ paddingBottom: '1rem', borderBottom: '1px solid var(--bg-body)', marginBottom: '1rem' }}>
                          <div>
-                           <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Doctor</p>
-                           <p className="font-bold text-slate-800 text-lg">{selectedDoctor?.name}</p>
-                           <p className="text-sm text-slate-500">{selectedDoctor?.specialty}</p>
+                           <p style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 600 }}>Doctor</p>
+                           <p style={{ fontWeight: 'bold', fontSize: '1.125rem' }}>{selectedDoctor?.name}</p>
+                           <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>{selectedDoctor?.specialty}</p>
                          </div>
-                         <div className="h-10 w-10 bg-teal-50 rounded-full flex items-center justify-center text-teal-600">
+                         <div style={{ padding: '0.75rem', background: 'var(--primary-light)', borderRadius: '50%', color: 'var(--primary)' }}>
                            <User size={20} />
                          </div>
                        </div>
                        
-                       <div className="space-y-3">
+                       <div className="flex flex-col gap-3">
                          <div className="flex justify-between text-sm">
-                           <span className="text-slate-500">Patient</span>
-                           <span className="font-medium text-slate-900">{formData.patientName}</span>
+                           <span className="text-muted">Patient</span>
+                           <span className="font-medium">{formData.patientName}</span>
                          </div>
                          <div className="flex justify-between text-sm">
-                           <span className="text-slate-500">Date</span>
-                           <span className="font-medium text-slate-900">{formData.date}</span>
+                           <span className="text-muted">Date</span>
+                           <span className="font-medium">{formData.date}</span>
                          </div>
                          <div className="flex justify-between text-sm">
-                           <span className="text-slate-500">Time Slot</span>
-                           <span className="font-medium text-slate-900">10:30 AM (Estimated)</span>
+                           <span className="text-muted">Time Slot</span>
+                           <span className="font-medium">10:30 AM (Estimated)</span>
                          </div>
                        </div>
 
-                       <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
-                         <span className="font-bold text-slate-800">Total Due</span>
-                         <span className="text-2xl font-bold text-green-600">${FEE}</span>
+                       <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--bg-body)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                         <span className="font-bold">Total Due</span>
+                         <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--success)' }}>${FEE}</span>
                        </div>
                     </div>
 
-                    <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-center gap-4">
-                       <div className="bg-white p-2 rounded shadow-sm">
-                          <CreditCard className="text-slate-700" size={24} />
+                    <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '0.75rem', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+                       <div style={{ background: 'white', padding: '0.5rem', borderRadius: '0.25rem', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+                          <CreditCard color="#334155" size={24} />
                        </div>
-                       <div className="flex-1">
-                          <p className="text-sm font-semibold text-slate-900">Credit / Debit Card</p>
-                          <p className="text-xs text-slate-500">Secure simulated transaction</p>
+                       <div style={{ flex: 1 }}>
+                          <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>Credit / Debit Card</p>
+                          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Secure simulated transaction</p>
                        </div>
-                       <div className="h-4 w-4 rounded-full border-2 border-teal-600 bg-teal-600"></div>
                     </div>
 
                     <div className="flex gap-4">
-                      <Button variant="outline" onClick={() => setCurrentStep(0)} className="flex-1">
+                      <Button variant="outline" onClick={() => setCurrentStep(0)} style={{ flex: 1 }}>
                         Back
                       </Button>
-                      <Button onClick={handleNext} className="flex-[2]" disabled={loading} size="lg">
+                      <Button onClick={handleNext} style={{ flex: 2 }} disabled={loading} size="lg">
                         {loading ? (
-                          <>Processing <Loader2 className="ml-2 animate-spin" size={18}/></>
+                          <>Processing <Loader2 className="animate-spin" style={{ marginLeft: '0.5rem' }} size={18}/></>
                         ) : (
                           <>Confirm Payment</>
                         )}
@@ -248,74 +234,76 @@ export const Booking: React.FC = () => {
 
                 {/* Step 3: Success Token */}
                 {currentStep === 2 && (
-                   <div className="flex flex-col items-center justify-center text-center space-y-8 fade-in-up">
-                      <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-600 shadow-xl shadow-green-100 no-print">
+                   <div className="fade-in flex flex-col items-center justify-center text-center">
+                      <div className="no-print" style={{ width: '5rem', height: '5rem', background: '#dcfce7', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--success)', marginBottom: '1.5rem' }}>
                          <CheckCircle size={40} />
                       </div>
-                      <div className="no-print">
-                         <h2 className="text-3xl font-bold text-slate-900 mb-2">Payment Successful!</h2>
-                         <p className="text-slate-500">Your appointment is confirmed. Here is your digital ticket.</p>
+                      <div className="no-print" style={{ marginBottom: '2rem' }}>
+                         <h2 className="text-2xl font-bold" style={{ marginBottom: '0.5rem' }}>Payment Successful!</h2>
+                         <p className="text-muted">Your appointment is confirmed. Here is your digital ticket.</p>
                       </div>
 
                       {/* Digital Token Slip - PRINTABLE */}
-                      <div id="printable-ticket" className="bg-white border border-slate-200 rounded-xl w-full max-w-sm shadow-2xl relative overflow-hidden transform transition-transform duration-300">
-                         <div className="bg-slate-900 text-white p-6 relative overflow-hidden">
-                             <div className="absolute -right-4 -top-4 w-16 h-16 bg-white/10 rounded-full"></div>
+                      <div id="printable-ticket" style={{ 
+                          background: 'white', 
+                          border: '1px solid var(--border)', 
+                          borderRadius: '1rem', 
+                          width: '100%', 
+                          maxWidth: '350px', 
+                          boxShadow: 'var(--shadow-lg)', 
+                          overflow: 'hidden', 
+                          marginBottom: '2rem' 
+                      }}>
+                         <div style={{ background: 'var(--bg-dark)', color: 'white', padding: '1.5rem', position: 'relative' }}>
                              <div className="flex justify-between items-start">
-                                <div className="text-left">
-                                  <h3 className="font-bold text-lg text-white">City Care Hospital</h3>
-                                  <p className="text-[10px] text-slate-300 uppercase tracking-wider">Outpatient Token</p>
+                                <div className="text-left-md">
+                                  <h3 style={{ fontWeight: 'bold', fontSize: '1.125rem' }}>City Care Hospital</h3>
+                                  <p style={{ fontSize: '0.75rem', color: '#cbd5e1', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Outpatient Token</p>
                                 </div>
-                                <div className="text-right">
-                                   {/* Simple SVG icon fallback for print compatibility if needed */}
-                                   <div className="bg-teal-500/20 p-1 rounded">
-                                     <Activity className="text-teal-400" />
+                                <div>
+                                   <div style={{ background: 'rgba(255,255,255,0.1)', padding: '0.25rem', borderRadius: '0.25rem' }}>
+                                     <Activity color="#2dd4bf" />
                                    </div>
                                 </div>
                              </div>
                          </div>
                          
-                         <div className="p-6">
-                            <div className="text-center mb-6">
-                               <p className="text-xs text-slate-400 uppercase tracking-widest mb-1">Queue Number</p>
-                               <p className="text-5xl font-mono font-bold text-slate-800 tracking-tighter">A-104</p>
+                         <div style={{ padding: '1.5rem' }}>
+                            <div className="text-center" style={{ marginBottom: '1.5rem' }}>
+                               <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Queue Number</p>
+                               <p style={{ fontSize: '3rem', fontFamily: 'monospace', fontWeight: 700, lineHeight: 1 }}>A-104</p>
                             </div>
 
-                            <div className="space-y-4 text-sm border-t border-slate-100 pt-6">
+                            <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '0.875rem' }}>
                                 <div className="flex justify-between items-center">
                                    <div className="flex items-center gap-3">
-                                      <User size={16} className="text-slate-400"/>
-                                      <span className="font-medium text-slate-700">{formData.patientName}</span>
+                                      <User size={16} color="var(--text-light)"/>
+                                      <span style={{ fontWeight: 500 }}>{formData.patientName}</span>
                                    </div>
                                 </div>
                                 <div className="flex justify-between items-center">
                                    <div className="flex items-center gap-3">
-                                      <Calendar size={16} className="text-slate-400"/>
-                                      <span className="font-medium text-slate-700">{formData.date}</span>
+                                      <Calendar size={16} color="var(--text-light)"/>
+                                      <span style={{ fontWeight: 500 }}>{formData.date}</span>
                                    </div>
                                 </div>
                                 <div className="flex justify-between items-center">
                                    <div className="flex items-center gap-3">
-                                      <div className="w-4 h-4 rounded-full bg-green-100 text-green-600 flex items-center justify-center"><Check size={10}/></div>
-                                      <span className="font-medium text-green-600">Paid ${FEE}</span>
+                                      <div style={{ width: '1rem', height: '1rem', borderRadius: '50%', background: '#dcfce7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--success)' }}><Check size={10}/></div>
+                                      <span style={{ fontWeight: 500, color: 'var(--success)' }}>Paid ${FEE}</span>
                                    </div>
                                 </div>
                             </div>
                             
-                            <div className="mt-8 text-center">
-                                <p className="text-[10px] text-slate-400">Please present this digital slip at Room 302.</p>
-                                <p className="text-[10px] text-slate-300 mt-1">Generated by City Care Automated System</p>
+                            <div className="text-center" style={{ marginTop: '2rem' }}>
+                                <p style={{ fontSize: '0.75rem', color: 'var(--text-light)' }}>Please present this digital slip at Room 302.</p>
                             </div>
                          </div>
-
-                         {/* Ticket Cutout Effect */}
-                         <div className="absolute top-[88px] -left-3 w-6 h-6 bg-slate-50 rounded-full print:hidden"></div>
-                         <div className="absolute top-[88px] -right-3 w-6 h-6 bg-slate-50 rounded-full print:hidden"></div>
                       </div>
 
-                      <div className="flex gap-4 pt-4 no-print">
+                      <div className="flex gap-4 no-print">
                          <Button variant="outline" onClick={() => window.print()}>
-                           <Printer size={16} className="mr-2"/> Print Ticket
+                           <Printer size={16} style={{ marginRight: '0.5rem' }}/> Print Ticket
                          </Button>
                          <Button onClick={() => {
                            setCurrentStep(0);
